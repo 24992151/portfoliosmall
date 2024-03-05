@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <title>Pine Gym</title>
+</head>
+<body>
+    <header>
+        <img id="logo" src="pinegymlogo.png" alt="Pine Gym Logo">
+    </header>
+    <main>
+        <!-- Client Workouts -->
+        <section id="workout-section">
+            <h2>Individual Exercises</h2>
+            <ul id="workout-list"></ul>
+            <!-- Form for adding, editing, and deleting workouts -->
+            <form id="workout-form">
+                <input type="text" id="workout-name" placeholder="Workout Name" required>
+                <input type="file" id="workout-file" accept=".png, .mp4" required>
+                <button type="button" id="add-workout">Add Workout</button>
+                <button type="button" id="save-workout">Save Workout</button>
+                <button type="button" id="delete-workout">Delete Workout</button>
+            </form>
+        </section>
+        <!-- Compiled/Saved Workouts -->
+        <section id="session-plan-section">
+            <h2>Workout Session Plan</h2>
+            <ul id="session-plan-list"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>Unlock peak fitness! For personalized training or nutrition advice, contact Pine Gym today. Elevate your well-being and transform with us!</p>
+        <button id="book-session">Book PT Session</button>
+        <button id="nutrition-advice">Nutrition Advice</button>
+    </footer>
+</body>
+</html>
+
+<!--Git Repo-->
+<!--Videos and Images-->
+<!--Nutrition and PT Advice- Nav Bar-->
+<!--Check Validators & Performance-->
+<!--Add Schedulling timetable over days-->
