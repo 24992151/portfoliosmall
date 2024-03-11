@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Variables
     let workouts = [];
     let selectedWorkoutIndex = -1;
-    let dayCount = 1;
 
     // Workout Display
     function displayWorkouts() {
@@ -23,6 +22,49 @@ document.addEventListener('DOMContentLoaded', function () {
     function selectWorkout(index) {
         selectedWorkoutIndex = index;
         console.log('Selected Workout:', workouts[selectedWorkoutIndex]);
+    }
+    
+    // Adding Workouts
+    function addWorkout() {
+        const nameInput = workoutForm.querySelector('#workout-name').value;
+        const fileInput = workoutForm.querySelector('#workout-file').files[0];
+
+        if (nameInput && fileInput) {
+            workouts.push({ name: nameInput, file: fileInput });
+            displayWorkouts();
+            selectedWorkoutIndex = workouts.length - 1;
+            selectWorkout(selectedWorkoutIndex);
+        } else {
+            alert('Please provide both a name and a file for the workout.');
+        }
+    }
+
+    // Saving Workouts
+    function saveWorkout() {
+        if (workouts.length > 0) {
+            // Iterating over workouts and adding them to session plan
+            workouts.forEach((workout) => {
+                const li = document.createElement('li');
+                const fileDisplay = workout.file ? ` (File: ${workout.file.name})` : '';
+                li.textContent = `${workout.name}${fileDisplay}`;
+                sessionPlanList.appendChild(li);
+            });
+    
+            // Clear the workouts array and update the display
+            workouts = [];
+            displayWorkouts();
+            workoutForm.reset();
+        }
+    }
+
+    // Deleting Workouts
+    function deleteWorkout() {
+        if (selectedWorkoutIndex !== -1) {
+            workouts.splice(selectedWorkoutIndex, 1);
+            displayWorkouts();
+            selectedWorkoutIndex = -1;
+            workoutForm.reset();
+        }
     }
 
     // Event Listeners for buttons
