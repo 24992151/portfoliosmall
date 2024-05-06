@@ -1,74 +1,69 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const workoutList = document.getElementById('workout-list');
-    const workoutForm = document.getElementById('workout-form');
     const sessionPlanList = document.getElementById('session-plan-list');
 
     // Variables
     let workouts = [];
-    let selectedWorkoutIndex = -1;
 
-    // Workout Display
-    function displayWorkouts() {
-        workoutList.innerHTML = workouts.map((workout, index) => {
-            const fileDisplay = workout.file ? ` (File: ${workout.file.name})` : '';
-            return `<li>
-                        <span onclick="selectWorkout(${index})">${workout.name}${fileDisplay}</span>
-                        <button class="edit-btn" onclick="editWorkout(${index})">Edit</button>
-                    </li>`;
-        }).join('');
-    }
-
-    // Workout Selection
-    function selectWorkout(index) {
-        selectedWorkoutIndex = index;
-        console.log('Selected Workout:', workouts[selectedWorkoutIndex]);
-    }
-    
-    // Adding Workouts
+    // Adding & Saving Workouts
     function addWorkout() {
-        const nameInput = workoutForm.querySelector('#workout-name').value;
-        const fileInput = workoutForm.querySelector('#workout-file').files[0];
+        const fileInput = document.getElementById('workout-file');
+        const workoutNameInput = document.getElementById('workout-name');
+        const file = fileInput.files[0];
+        const url = URL.createObjectURL(file);
+        const workoutName = workoutNameInput.value;
 
-        if (nameInput && fileInput) {
-            workouts.push({ name: nameInput, file: fileInput });
-            displayWorkouts();
-            selectedWorkoutIndex = workouts.length - 1;
-            selectWorkout(selectedWorkoutIndex);
-        } else {
-            alert('Please provide both a name and a file for the workout.');
-        }
-    }
+        const workout = {
+            name: workoutName,
+            file: file,
+            url: url
+        };
 
-    // Saving Workouts
-    function saveWorkout() {
-        if (workouts.length > 0) {
-            // Iterating over workouts and adding them to session plan
-            workouts.forEach((workout) => {
-                const li = document.createElement('li');
-                const fileDisplay = workout.file ? ` (File: ${workout.file.name})` : '';
-                li.textContent = `${workout.name}${fileDisplay}`;
-                sessionPlanList.appendChild(li);
-            });
-    
-            // Clear the workouts array and update the display
-            workouts = [];
-            displayWorkouts();
-            workoutForm.reset();
-        }
-    }
+        workouts.push(workout);
 
-    // Deleting Workouts
-    function deleteWorkout() {
-        if (selectedWorkoutIndex !== -1) {
-            workouts.splice(selectedWorkoutIndex, 1);
-            displayWorkouts();
-            selectedWorkoutIndex = -1;
-            workoutForm.reset();
+        const li = document.createElement('li');
+        li.textContent = workoutName;
+
+        if (file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = url;
+            li.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+            const video = document.createElement('video');
+            video.src = url;
+            video.controls = true;
+            li.appendChild(video);
         }
+
+        // Delete Button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', function() {
+            const index = workouts.indexOf(workout);
+            if (index !== -1) {
+                workouts.splice(index, 1);
+            }
+            sessionPlanList.removeChild(li);
+        });
+
+        li.appendChild(deleteBtn);
+
+        // Edit Button
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', function() {
+            const newName = prompt('Enter a new name for the workout:');
+            if (newName) {
+                workout.name = newName;
+                const newText = document.createTextNode(newName);
+                li.replaceChild(newText, li.childNodes[0]);
+            }
+        });
+
+        li.appendChild(editBtn);
+        sessionPlanList.appendChild(li);
     }
 
     // Event Listeners for buttons
     document.getElementById('add-workout').addEventListener('click', addWorkout);
     document.getElementById('save-workout').addEventListener('click', saveWorkout);
-    document.getElementById('delete-workout').addEventListener('click', deleteWorkout);
 });
