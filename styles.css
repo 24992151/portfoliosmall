@@ -1,4 +1,8 @@
+/* Main Page */
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -9,17 +13,18 @@ header, footer {
     background-color: #001020;
     color: white;
     text-align: center;
-    padding: 1em 0;
+    padding: 2%;
 }
 
 #logo {
     width: 110px;
-    height: auto; 
-    margin-right: 10px; 
+    height: auto;
+    margin-right: 10px;
 }
 
+/* Content */
 main {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 20px auto;
     display: flex;
     justify-content: space-between;
@@ -27,10 +32,12 @@ main {
 
 section {
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 45%;
+    width: 1500px;
+    height: 500px;;
+    margin: 1%;
 }
 
 button {
@@ -46,7 +53,8 @@ button {
 button:hover {
     background-color: #fa2e47;
 }
-
+/*
+Form Data */
 form {
     display: flex;
     flex-direction: column;
@@ -67,15 +75,30 @@ ul {
     padding: 0;
 }
 
+/* Mobile Crossplatforming */
+@media screen and (max-width: 600px) {
+    main {
+        flex-direction: column;
+    }
+
+    section {
+        width: 80%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+
+/* Footer */
 footer {
     background-color: #001020;
+    margin-top: auto;
     color: white;
     text-align: center;
-    padding: 1em 0;
+    padding: 1%;
     font-size: 0.9em;
 }
 
 footer button {
-    font-size: 0.8em;
-    padding: 5px 10px; 
+    font-size: 10px;
+    padding: 5px 10px;
 }
